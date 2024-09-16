@@ -24,7 +24,6 @@
             overflow: hidden;
         }
 
-        /* Cabeçalho com Logo ou Título alinhado à esquerda */
         header {
             position: absolute;
             top: 0;
@@ -45,7 +44,6 @@
             letter-spacing: 2px;
         }
 
-        /* Vídeo como fundo */
         .video-bg {
             position: fixed;
             top: 0;
@@ -56,12 +54,11 @@
             z-index: -1;
         }
 
-        /* Estilo do Container de Login transparente */
         .login-container {
-            background: rgba(255, 255, 255, 0.1); /* Fundo transparente */
+            background: rgba(255, 255, 255, 0.1);
             padding: 40px;
             border-radius: 15px;
-            backdrop-filter: blur(10px); /* Efeito de blur */
+            backdrop-filter: blur(10px);
             max-width: 400px;
             width: 100%;
             text-align: center;
@@ -69,14 +66,12 @@
             margin-bottom: 20px;
         }
 
-        /* Estilo do título */
         .login-container h2 {
             color: white;
             font-size: 24px;
             margin-bottom: 30px;
         }
 
-        /* Estilo dos Inputs */
         .login-container input {
             width: 100%;
             padding: 15px;
@@ -88,16 +83,14 @@
             font-size: 16px;
         }
 
-        /* Placeholder dos Inputs */
         .login-container input::placeholder {
             color: #ccc;
         }
 
-        /* Estilo do Botão */
         .login-container button {
             width: 100%;
             padding: 15px;
-            background-color: rgba(72, 133, 237, 0.8); /* Azul com transparência */
+            background-color: rgba(72, 133, 237, 0.8);
             color: white;
             font-size: 18px;
             border: none;
@@ -108,10 +101,9 @@
         }
 
         .login-container button:hover {
-            background-color: rgba(145, 52, 168, 0.8); /* Rosa arroxeado ao passar o mouse */
+            background-color: rgba(145, 52, 168, 0.8);
         }
 
-        /* Links abaixo do formulário de login */
         .login-container .login-links {
             margin-top: 15px;
             display: flex;
@@ -128,7 +120,6 @@
             text-decoration: underline;
         }
 
-        /* Botões de login social */
         .social-login {
             display: flex;
             justify-content: center;
@@ -149,18 +140,13 @@
         }
 
         .social-login button.google i {
-            color: #db4437; /* Google vermelho */
+            color: #db4437;
         }
 
         .social-login button.facebook i {
-            color: #4267B2; /* Facebook azul */
+            color: #4267B2;
         }
 
-        .social-login button.linkedin i {
-            color: #0077b5; /* LinkedIn azul */
-        }
-
-        /* Footer estilizado */
         footer {
             text-align: center;
             color: white;
@@ -175,7 +161,6 @@
             font-size: 14px;
         }
 
-        /* Responsividade */
         @media (max-width: 768px) {
             .login-container {
                 padding: 30px;
@@ -196,6 +181,12 @@
     </style>
     <!-- Inclua o Font Awesome para ícones sociais -->
     <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+
+    <!-- SDK Google -->
+    <script src="https://accounts.google.com/gsi/client" async defer></script>
+
+    <!-- SDK Facebook -->
+    <script async defer crossorigin="anonymous" src="https://connect.facebook.net/en_US/sdk.js"></script>
 </head>
 <body>
 
@@ -215,9 +206,9 @@
         <h2>Faça o Login</h2>
 
         <!-- Formulário de Login -->
-        <form action="/login" method="POST">
-            <input type="text" placeholder="Usuário" name="username" required>
-            <input type="password" placeholder="Senha" name="password" required>
+        <form id="loginForm">
+            <input type="text" id="username" placeholder="Usuário" name="username" required>
+            <input type="password" id="password" placeholder="Senha" name="password" required>
             <button type="submit">Entrar</button>
         </form>
 
@@ -229,14 +220,11 @@
 
         <!-- Login social com ícones -->
         <div class="social-login">
-            <button class="google">
+            <button class="google" id="googleLoginBtn">
                 <i class="fab fa-google"></i>
             </button>
-            <button class="facebook">
+            <button class="facebook" id="facebookLoginBtn">
                 <i class="fab fa-facebook-f"></i>
-            </button>
-            <button class="linkedin">
-                <i class="fab fa-linkedin-in"></i>
             </button>
         </div>
     </div>
@@ -245,6 +233,108 @@
     <footer>
         <p>&copy; 2024 Sua Empresa. Todos os direitos reservados.</p>
     </footer>
+
+    <!-- Validação de Formulário com JavaScript -->
+    <script>
+        const form = document.getElementById('loginForm');
+        form.addEventListener('submit', function(event) {
+            const username = document.getElementById('username').value;
+            const password = document.getElementById('password').value;
+
+            if (username === '' || password === '') {
+                event.preventDefault();
+                alert('Por favor, preencha todos os campos.');
+            } else {
+                // Envio do formulário para o backend simulado
+                fetch('https://example.com/api/login', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ username, password })
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        alert('Login realizado com sucesso!');
+                        // Redirecionar para a página principal
+                        window.location.href = '/dashboard';
+                    } else {
+                        alert('Usuário ou senha inválidos.');
+                    }
+                })
+                .catch(error => {
+                    alert('Erro ao conectar ao servidor.');
+                });
+
+                event.preventDefault(); // Impede o envio padrão do formulário
+            }
+        });
+
+        // Google Login
+        window.onload = function() {
+            google.accounts.id.initialize({
+                client_id: 'YOUR_GOOGLE_CLIENT_ID',
+                callback: handleCredentialResponse
+            });
+        };
+
+        function handleCredentialResponse(response) {
+            console.log('Google ID token:', response.credential);
+            // Enviar o token ao servidor para autenticar
+            fetch('https://example.com/api/google-login', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ token: response.credential })
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    alert('Login com Google realizado com sucesso!');
+                    window.location.href = '/dashboard';
+                } else {
+                    alert('Falha no login com Google.');
+                }
+            });
+        }
+
+        // Facebook Login
+        window.fbAsyncInit = function() {
+            FB.init({
+                appId: 'YOUR_FACEBOOK_APP_ID',
+                cookie: true,
+                xfbml: true,
+                version: 'v10.0'
+            });
+        };
+
+        document.getElementById('facebookLoginBtn').addEventListener('click', function() {
+            FB.login(function(response) {
+                if (response.authResponse) {
+                    const accessToken = response.authResponse.accessToken;
+                    // Enviar o token ao servidor para autenticar
+                    fetch('https://example.com/api/facebook-login', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({ token: accessToken })
+                    })
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.success) {
+                            alert('Login com Facebook realizado com sucesso!');
+                            window.location.href = '/dashboard';
+                        } else {
+                            alert('Falha no login com Facebook.');
+                        }
+                    });
+                }
+            }, {scope: 'public_profile,email'});
+        });
+    </script>
 
 </body>
 </html>
