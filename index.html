@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Página de Login</title>
+    <style>
+        /* Reset básico */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        /* Configuração do Background com vídeo */
+        body, html {
+            height: 100%;
+            font-family: Arial, sans-serif;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+        }
+
+        /* Cabeçalho com Logo ou Título alinhado à esquerda */
+        header {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            display: flex;
+            justify-content: flex-start;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .logo {
+            color: white;
+            font-size: 28px;
+            font-weight: bold;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+            margin-left: 30px;
+            letter-spacing: 2px;
+        }
+
+        /* Vídeo como fundo */
+        .video-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            z-index: -1;
+        }
+
+        /* Estilo do Container de Login transparente */
+        .login-container {
+            background: rgba(255, 255, 255, 0.1); /* Fundo transparente */
+            padding: 40px;
+            border-radius: 15px;
+            backdrop-filter: blur(10px); /* Efeito de blur */
+            max-width: 400px;
+            width: 100%;
+            text-align: center;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+            margin-bottom: 20px;
+        }
+
+        /* Estilo do título */
+        .login-container h2 {
+            color: white;
+            font-size: 24px;
+            margin-bottom: 30px;
+        }
+
+        /* Estilo dos Inputs */
+        .login-container input {
+            width: 100%;
+            padding: 15px;
+            margin: 10px 0;
+            border: none;
+            border-radius: 8px;
+            background-color: rgba(255, 255, 255, 0.2);
+            color: white;
+            font-size: 16px;
+        }
+
+        /* Placeholder dos Inputs */
+        .login-container input::placeholder {
+            color: #ccc;
+        }
+
+        /* Estilo do Botão */
+        .login-container button {
+            width: 100%;
+            padding: 15px;
+            background-color: rgba(72, 133, 237, 0.8); /* Azul com transparência */
+            color: white;
+            font-size: 18px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            margin-top: 20px;
+            transition: background-color 0.3s ease;
+        }
+
+        .login-container button:hover {
+            background-color: rgba(145, 52, 168, 0.8); /* Rosa arroxeado ao passar o mouse */
+        }
+
+        /* Links abaixo do formulário de login */
+        .login-container .login-links {
+            margin-top: 15px;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .login-container .login-links a {
+            color: white;
+            text-decoration: none;
+            font-size: 14px;
+        }
+
+        .login-container .login-links a:hover {
+            text-decoration: underline;
+        }
+
+        /* Botões de login social */
+        .social-login {
+            display: flex;
+            justify-content: center;
+            margin: 20px 0;
+        }
+
+        .social-login button {
+            background-color: transparent;
+            border: none;
+            font-size: 30px;
+            margin: 0 10px;
+            cursor: pointer;
+            transition: transform 0.3s ease;
+        }
+
+        .social-login button:hover {
+            transform: scale(1.2);
+        }
+
+        .social-login button.google i {
+            color: #db4437; /* Google vermelho */
+        }
+
+        .social-login button.facebook i {
+            color: #4267B2; /* Facebook azul */
+        }
+
+        .social-login button.linkedin i {
+            color: #0077b5; /* LinkedIn azul */
+        }
+
+        /* Footer estilizado */
+        footer {
+            text-align: center;
+            color: white;
+            padding: 10px;
+            background-color: rgba(0, 0, 0, 0.5);
+            width: 100%;
+            position: absolute;
+            bottom: 0;
+        }
+
+        footer p {
+            font-size: 14px;
+        }
+
+        /* Responsividade */
+        @media (max-width: 768px) {
+            .login-container {
+                padding: 30px;
+            }
+
+            .login-container h2 {
+                font-size: 20px;
+            }
+
+            .social-login {
+                flex-direction: column;
+            }
+
+            .social-login button {
+                margin-bottom: 10px;
+            }
+        }
+    </style>
+    <!-- Inclua o Font Awesome para ícones sociais -->
+    <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+</head>
+<body>
+
+    <!-- Vídeo de fundo -->
+    <video autoplay muted loop class="video-bg">
+        <source src="video.mp4" type="video/mp4">
+        Seu navegador não suporta vídeos HTML5.
+    </video>
+
+    <!-- Cabeçalho com logo ou título -->
+    <header>
+        <div class="logo">Minha Plataforma</div>
+    </header>
+
+    <!-- Container de Login transparente -->
+    <div class="login-container">
+        <h2>Faça o Login</h2>
+
+        <!-- Formulário de Login -->
+        <form action="/login" method="POST">
+            <input type="text" placeholder="Usuário" name="username" required>
+            <input type="password" placeholder="Senha" name="password" required>
+            <button type="submit">Entrar</button>
+        </form>
+
+        <!-- Links adicionais -->
+        <div class="login-links">
+            <a href="#">Esqueceu a senha?</a>
+            <a href="#">Criar uma nova conta</a>
+        </div>
+
+        <!-- Login social com ícones -->
+        <div class="social-login">
+            <button class="google">
+                <i class="fab fa-google"></i>
+            </button>
+            <button class="facebook">
+                <i class="fab fa-facebook-f"></i>
+            </button>
+            <button class="linkedin">
+                <i class="fab fa-linkedin-in"></i>
+            </button>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <p>&copy; 2024 Sua Empresa. Todos os direitos reservados.</p>
+    </footer>
+
+</body>
+</html>
